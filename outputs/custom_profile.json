@@ -1,0 +1,10 @@
+{
+  "name": "John Doe",
+  "primary_email": "john.doe@gmail.com",
+  "skills": [
+    "Python",
+    "SQL",
+    "Machine Learning"
+  ],
+  "confidence": 0.86
+}

@@ -1,0 +1,1 @@
+﻿{"projection":{"fields":["candidate_id","full_name","emails","skills"],"include_confidence":true,"include_provenance":false,"on_missing":"null"},"confidence":{"csv":0.95,"resume":0.8}}

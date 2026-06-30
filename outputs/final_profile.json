@@ -1,0 +1,188 @@
+{
+  "candidate_id": "recruiter",
+  "full_name": "John Doe",
+  "emails": [
+    "john.doe@oldmail.com"
+  ],
+  "phones": [
+    "+1555123456",
+    "2018-2019"
+  ],
+  "location": {
+    "city": "Coimbatore",
+    "region": "Tamil Nadu",
+    "country": "IN"
+  },
+  "links": {
+    "linkedin": "https://linkedin.com/in/johndoe",
+    "github": "https://github.com/johndoe",
+    "portfolio": "https://johndoe.dev",
+    "other": []
+  },
+  "headline": "Backend Engineer at Amazon",
+  "years_experience": 6.4,
+  "skills": [
+    {
+      "name": "Python",
+      "confidence": 0.65,
+      "sources": [
+        "resume"
+      ]
+    },
+    {
+      "name": "SQL",
+      "confidence": 0.65,
+      "sources": [
+        "resume"
+      ]
+    },
+    {
+      "name": "Machine Learning",
+      "confidence": 0.65,
+      "sources": [
+        "resume"
+      ]
+    },
+    {
+      "name": "System Design",
+      "confidence": 0.65,
+      "sources": [
+        "resume"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Google",
+      "title": "Software Engineer",
+      "start": "2020-01",
+      "end": null,
+      "summary": "Amazon - Intern (2018-2019)"
+    }
+  ],
+  "education": [
+    {
+      "institution": null,
+      "degree": "B.Tech",
+      "field": "Computer Science",
+      "end_year": null
+    }
+  ],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "csv",
+      "method": "direct",
+      "value": "John Doe",
+      "index": null
+    },
+    {
+      "field": "emails",
+      "source": "csv",
+      "method": "direct",
+      "value": "john.doe@oldmail.com",
+      "index": 0
+    },
+    {
+      "field": "phones",
+      "source": "csv",
+      "method": "normalized",
+      "value": "+1555123456",
+      "index": 0
+    },
+    {
+      "field": "headline",
+      "source": "csv",
+      "method": "direct",
+      "value": "Backend Engineer at Amazon",
+      "index": null
+    },
+    {
+      "field": "skills",
+      "source": "resume",
+      "method": "extracted",
+      "value": "Python",
+      "index": 0
+    },
+    {
+      "field": "skills",
+      "source": "resume",
+      "method": "extracted",
+      "value": "SQL",
+      "index": 1
+    },
+    {
+      "field": "skills",
+      "source": "resume",
+      "method": "extracted",
+      "value": "Machine Learning",
+      "index": 2
+    },
+    {
+      "field": "skills",
+      "source": "resume",
+      "method": "extracted",
+      "value": "System Design",
+      "index": 3
+    },
+    {
+      "field": "experience",
+      "source": "resume",
+      "method": "regex_extraction",
+      "value": {
+        "company": "Google",
+        "title": "Software Engineer"
+      },
+      "index": 0
+    },
+    {
+      "field": "years_experience",
+      "source": "resume",
+      "method": "computed",
+      "value": 6.4,
+      "index": null
+    },
+    {
+      "field": "education",
+      "source": "resume",
+      "method": "regex_extraction",
+      "value": {
+        "institution": null,
+        "degree": "B.Tech",
+        "field": "Computer Science"
+      },
+      "index": 0
+    },
+    {
+      "field": "phones",
+      "source": "unknown",
+      "method": "raw",
+      "value": "2018-2019",
+      "index": 1
+    },
+    {
+      "field": "location",
+      "source": "resume",
+      "method": "extracted",
+      "value": {
+        "city": "Coimbatore",
+        "region": "Tamil Nadu",
+        "country": "IN"
+      },
+      "index": null
+    },
+    {
+      "field": "links",
+      "source": "resume",
+      "method": "regex_extraction",
+      "value": {
+        "linkedin": "https://linkedin.com/in/johndoe",
+        "github": "https://github.com/johndoe",
+        "portfolio": "https://johndoe.dev",
+        "other": []
+      },
+      "index": null
+    }
+  ],
+  "overall_confidence": 0.85
+}

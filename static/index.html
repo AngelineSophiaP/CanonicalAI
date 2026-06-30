@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eightfold AI Candidate Ingestion Dashboard</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Controls and Candidate Directory -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="dna-icon"><i class="fa-solid fa-dna"></i></span>
+                    <span class="logo-text">EightFold Pipeline</span>
+                </div>
+            </div>
+
+            <!-- Ingestion Panel -->
+            <div class="sidebar-section">
+                <h3>Pipeline Operations</h3>
+                <form id="pipeline-form" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <span class="field-label-desc">Recruiter CSV</span>
+                        <label class="file-upload-label">
+                            <i class="fa-solid fa-file-csv"></i> Choose CSV File
+                            <input type="file" id="input-csv" accept=".csv">
+                        </label>
+                        <span id="csv-file-name" class="file-name-hint">No file chosen</span>
+                    </div>
+                    <div class="form-group">
+                        <span class="field-label-desc">Resumes (PDF / TXT)</span>
+                        <label class="file-upload-label">
+                            <i class="fa-solid fa-file-pdf"></i> Choose Resumes
+                            <input type="file" id="input-resumes" accept=".pdf,.txt" multiple>
+                        </label>
+                        <span id="resumes-count" class="file-name-hint">0 files selected</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-input-label" for="input-github">
+                            <i class="fa-brands fa-github"></i> GitHub Usernames
+                        </label>
+                        <input type="text" id="input-github" class="sidebar-text-input" placeholder="e.g. gokul3015, girikannan">
+                    </div>
+                    <div class="pipeline-actions">
+                        <button id="btn-process" type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-play"></i> Ingest Data
+                        </button>
+                        <button id="btn-clear" type="button" class="btn btn-danger">
+                            <i class="fa-solid fa-trash-can"></i> WIPE DB
+                        </button>
+                    </div>
+                </form>
+                <!-- Log / Notification Box -->
+                <div id="pipeline-status" class="status-box hidden">
+                    <span class="status-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+                    <span id="status-message">Ingesting candidate files...</span>
+                </div>
+            </div>
+
+
+
+            <!-- Candidate List -->
+            <div class="sidebar-section list-section flex-grow">
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-candidates" placeholder="Search profiles...">
+                </div>
+                <div class="candidates-directory-container">
+                    <ul id="candidate-list" class="candidate-list">
+                        <!-- Dynamic list items -->
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Display Pane -->
+        <main class="main-display">
+            <!-- Welcome View (Default) -->
+            <div id="welcome-view" class="welcome-container">
+                <div class="welcome-card">
+                    <div class="welcome-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+                    <h2>No Candidate Selected</h2>
+                    <p>Select a candidate from the directory, or click "Run Pipeline" to ingest records.</p>
+                </div>
+            </div>
+
+            <!-- Profile View -->
+            <div id="candidate-view" class="profile-container hidden">
+                <div class="profile-scroll">
+                    <!-- Profile Header Card -->
+                    <div class="glass-card profile-header">
+                        <div class="profile-header-meta">
+                            <div class="avatar"><i class="fa-solid fa-user-tie"></i></div>
+                            <div class="profile-name-section">
+                                <h1 id="profile-name">Candidate Name</h1>
+                                <p id="profile-headline" class="profile-sub">Software Engineer at Google</p>
+                                <div class="contact-links" id="profile-contacts">
+                                    <!-- Dynamic contact badges -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Match Confidence Badge -->
+                        <div class="confidence-donut-container">
+                            <div class="confidence-label">Match Score</div>
+                            <div class="confidence-percent" id="confidence-text">89%</div>
+                            <div class="confidence-track">
+                                <div class="confidence-fill" id="confidence-fill-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Grid -->
+                    <div class="profile-tabs-card glass-card">
+                        <div class="tab-headers">
+                            <button class="tab-btn active" onclick="switchTab('tab-experience')">
+                                <i class="fa-solid fa-briefcase"></i> Experience
+                            </button>
+                            <button class="tab-btn" onclick="switchTab('tab-education')">
+                                <i class="fa-solid fa-graduation-cap"></i> Education
+                            </button>
+                            <button class="tab-btn" onclick="switchTab('tab-skills')">
+                                <i class="fa-solid fa-screwdriver-wrench"></i> Skills
+                            </button>
+                        </div>
+
+                        <!-- Tab Contents -->
+                        <div class="tab-content">
+                            <!-- Experience Timeline -->
+                            <div id="tab-experience" class="tab-pane active">
+                                <div class="timeline" id="timeline-container">
+                                    <!-- Dynamic timeline items -->
+                                </div>
+                            </div>
+
+                            <!-- Education Cards -->
+                            <div id="tab-education" class="tab-pane">
+                                <div class="education-grid" id="education-container">
+                                    <!-- Dynamic education items -->
+                                </div>
+                            </div>
+
+                            <!-- Skills Tag Grid -->
+                            <div id="tab-skills" class="tab-pane">
+                                <div class="skills-grid" id="skills-container">
+                                    <!-- Dynamic skill pills -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Split Right Side Panel -->
+                <div class="right-split-panel">
+                    <!-- Top Window: Field Selectors & Projected JSON -->
+                    <div class="json-panel glass-card">
+                        <div class="json-header-specs">
+                            <div class="json-header-top">
+                                <h3><i class="fa-solid fa-code"></i> Projected JSON Output</h3>
+                                <div class="json-actions">
+                                    <button id="btn-copy" class="btn btn-secondary btn-sm" title="Copy JSON">
+                                        <i class="fa-regular fa-copy"></i> Copy
+                                    </button>
+                                    <button id="btn-download" class="btn btn-secondary btn-sm" title="Download JSON">
+                                        <i class="fa-solid fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="projection-spec-subpanel">
+                                <div class="projection-toggles-grid">
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">ID</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-candidate_id" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Name</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-full_name" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Emails</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-emails" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Phones</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-phones" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Headline</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-headline" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Skills</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-skills" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Exp</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-experience" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Edu</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-education" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Prov</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-provenance" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="toggle-group">
+                                        <span class="toggle-label">Conf</span>
+                                        <label class="switch">
+                                            <input type="checkbox" id="spec-overall_confidence" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="json-body">
+                            <pre><code id="json-code">{}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Window: Traceability / Provenance Log -->
+                    <div class="provenance-panel glass-card">
+                        <div class="provenance-panel-header">
+                            <h3><i class="fa-solid fa-history"></i> Traceability (Provenance)</h3>
+                        </div>
+                        <div class="provenance-panel-body">
+                            <div class="provenance-wrapper">
+                                <table class="provenance-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Source</th>
+                                            <th>Method</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="provenance-container">
+                                        <!-- Dynamic provenance rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- UI Scripts -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

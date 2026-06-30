@@ -1,0 +1,12 @@
+{
+  "projection": {
+    "fields": [],
+    "include_confidence": true,
+    "include_provenance": true,
+    "on_missing": "null"
+  },
+  "confidence": {
+    "csv": 0.95,
+    "resume": 0.8
+  }
+}
